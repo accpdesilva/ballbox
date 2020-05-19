@@ -1,0 +1,71 @@
+.ball {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    position: absolute;
+}
+
+#ball1 {
+    background-color: gray;
+    top: 40px;
+    left: 40px;
+}
+
+
+#ball2 {
+    background-color: gray;
+    top: 80px;
+    left: 500px;
+}
+
+#run-button {
+    position: absolute;
+    right: 25px;
+    /* left: calc(100% - 10px); */
+    top: 25px;
+    background-color: lightblue;
+    padding: 10px;
+    color: black;
+}
+
+#run-button:hover {
+    background-color: lightseagreen;
+    color:black;
+}
+
+#stop-button {
+    position: absolute;
+    right: 25px;
+    /* left: calc(100% - 10px); */
+    top: 75px;
+    background-color: lightblue;
+    padding: 10px;
+    color: black;
+}
+
+#stop-button:hover {
+    background-color: lightseagreen;
+    color:black;
+}
+
+#box {
+    width: 725px;
+    height: 725px;
+    border: 4px solid indigo;
+    position: absolute;
+    top: 25px;
+    left: 25px;
+}
+
+#data-table {
+    border: 1px solid green;
+    top: 800px;
+    position: absolute;
+    font-size: 14pt;
+}
+
+#container {
+    position: absolute;
+    top: 800px;
+    left: 200px;
+}

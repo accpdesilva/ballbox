@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physics Experiements</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <link rel="stylesheet" href="physics-styles.css">
+</head>
+<body>
+    
+    <div id="box">
+
+    </div>
+    <div id="data-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        Type
+                    </th>
+                    <th>
+                        Amount
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        Infected
+                    </td>
+                    <td id="amt-infected"  style="color:red;">
+                        1
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Non-infected
+                    </td>
+                    <td id="amt-free">
+                        1
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Recovered
+                    </td>
+                    <td id="amt-recovered">
+                        1
+                    </td>
+                </tr>
+                </tr>
+                <tr>
+                    <td>
+                        Total
+                    </td>
+                    <td id="amt-total" x>
+                        1
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="container">
+        chart
+    </div>
+    <a href="#"><div id="run-button">Run me!</div></a>
+    <a href="#"><div id="stop-button">Stop!</div></a>
+    <script src="physics.js"></script>
+    <script src="highcharts.js"></script>
+    </body>
+</html>
