@@ -7,8 +7,9 @@ $(function(){
                 load: function () {
                     
                     // set up the updating of the chart each second
-                    var infected = this.series[1];
-                    var recovered = this.series[0];
+                    var infected = this.series[2];
+                    var recovered = this.series[1];
+                    var uninfected = this.series[0];
                     window.countseries = 0;
                     setInterval(function () {
                         if(window.enginerunning){
@@ -16,7 +17,9 @@ $(function(){
                             var x = countseries, // current time
                                 y = Number($('#amt-infected').text());
                                 z = Number($('#amt-recovered').text());
+                                u = Number($('#amt-free').text());
                             console.log(y);
+                            uninfected.addPoint([x, u], true, false);
                             infected.addPoint([x, y], true, false);
                             recovered.addPoint([x, z], true, false);
                         }
@@ -50,7 +53,7 @@ $(function(){
         },
         plotOptions: {
             area: {
-                stacking: 'normal',
+                stacking: 'percent',
                 pointStart: 1,
                 marker: {
                     enabled: false,
@@ -65,13 +68,16 @@ $(function(){
             }
         },
         series: [{
+            name: 'Uninfected',
+            data: []
+        },{
             name: 'Recovered',
             data: []
         },{
             name: 'Infected',
             data: []
         }],
-        colors: ['lightgreen','red']
+        colors: ['gray','lightgreen','red']
     });
 
 });
