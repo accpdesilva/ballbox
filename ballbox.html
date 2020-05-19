@@ -9,64 +9,39 @@
     <link rel="stylesheet" href="ballbox-styles.css">
 </head>
 <body>
-    
-    <div id="box">
+    <div id="main">
+        <div id="box">
+            
+        </div>
+        <div id="sidebar">
+            <div id="container">
 
+            </div>
+            <div id="configbox">
+                <div class=button id="run-button">Run me!</div>
+                <div class=button id="stop-button">Stop!</div>
+            </div>
+            <div id="data-table">
+                <div class="infobox">
+                    <p>Infected</br>
+                    <span id="amt-infected" class="bignum">1</p>
+                </div>
+                <div class="infobox">
+                    <p>Uninfected</br>
+                    <span id="amt-free" class="bignum">1</p>
+                </div>
+                <div class="infobox">
+                    <p>Recovered</br>
+                    <span id="amt-recovered" class="bignum">1</p>
+                </div>
+                <div class="infobox">
+                    <p>Total</br>
+                    <span id="amt-total" class="bignum">1</p>
+                </div>
+        </div>
     </div>
-    <div id="data-table">
-        <table>
-            <thead>
-                <tr>
-                    <th>
-                        Type
-                    </th>
-                    <th>
-                        Amount
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        Infected
-                    </td>
-                    <td id="amt-infected"  style="color:red;">
-                        1
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Non-infected
-                    </td>
-                    <td id="amt-free">
-                        1
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Recovered
-                    </td>
-                    <td id="amt-recovered">
-                        1
-                    </td>
-                </tr>
-                </tr>
-                <tr>
-                    <td>
-                        Total
-                    </td>
-                    <td id="amt-total" x>
-                        1
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div id="container">
-        chart
-    </div>
-    <a href="#"><div id="run-button">Run me!</div></a>
-    <a href="#"><div id="stop-button">Stop!</div></a>
+
+    
     <script src="ballbox.js"></script>
     <script src="highcharts.js"></script>
     </body>
