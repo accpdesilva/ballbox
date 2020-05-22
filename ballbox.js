@@ -3,17 +3,17 @@ $(function(){
     window.enginerunning = false;
 
     //how much should they move
-    window.ox = 20;
-    window.oy = 20;
+    window.ox = 5;
+    window.oy = 5;
 
     //speed (lower the faster)
-    window.speed = 50;
+    window.speed = 80;
 
     //number of balls
     window.balls = 200;
 
     //Time to recovery
-    window.timetorecovery = 3 * 1000 //miliseconds
+    window.timetorecovery = 4 * 1000 //miliseconds
 
     //Initially Infected
     window.initInfect = 1;
@@ -51,80 +51,108 @@ $(function(){
         return ball.offset().top;
     }
 
-    window.shift = function(ball, dx, dy){
-        let x = Math.round(getx(ball) + dx);
-        let y = Math.round(gety(ball) + dy);
-        x = (x>740)?740-(x-740):x;
-        y = (y>740)?740-(y-740):y;
-        //ball.css("top", x+"px");
-        //ball.css("left", y+"px");
-        ball.offset({top: x, left: y});
-    }
-
-    let engine = function(ball){
-        dox = Math.random() * window.ox;
-        doy = Math.random() * window.oy;
-        ball.get(0).engine = window.setInterval(function(){
-
-            if(ball.attr('reversex')=="false")
+    window.shift = function(ball, dx, dy){ //put in array of items to shift
+        window.shiftlog.forEach(  //array of ball element, dx and dy
+            function(e,i) 
             {
-                if(getx(ball)>(740-dox))
-                {
-                    ball.attr('reversex', true)
-                }
-            } else {
-                if(getx(ball)<35)
-                {
-                    ball.attr('reversex', false)
-                }
-            }
-
-            if(ball.attr('reversey')=="false")
+                let x = Math.round(e.e.offsetTop + e.dx);
+                let y = Math.round(e.e.offsetLeft + e.dy);
+                x = (x>740)?740-(x-740):x;
+                y = (y>740)?740-(y-740):y;
+                e.shiftx = x;
+                e.shifty = y;
+            });
+            window.shiftlog.forEach(function(e,i) //array of ball element, dx and dy
             {
-                if(gety(ball)>740-doy)
-                {
-                    ball.attr('reversey', true);
-                }
-            } else {
-                if(gety(ball)<35)
-                {
-                    ball.attr('reversey', false);
-                }
-            }
+                e.e.style.top = e.shiftx + "px";
+                e.e.style.left = e.shifty + "px";
+            });
+            window.shiftlog = [];
+        }
 
-            let dx = 0;
-            let dy = 0;
+    let engine = function(){
+        window.infectionlog = []
+        window.engine = window.setInterval(function(){
 
-            if(ball.attr('reversex')=="true"){
-                dx = dox*-1;
-            }
-            else
+            if(window.blocking == false){
+            window.blocking = true;
+            window.shiftlog = [];
+            //for each ball
+            $(".ball").each(function(i,e){
+            ball = $(e);
+
+            //check if a random motion path has already been set for the ball
+            if(e.dox == undefined && e.doy == undefined)
             {
-                dx = dox;
+                e.dox = Math.random() * window.ox;
+                e.doy = Math.random() * window.oy;
             }
 
-            if(ball.attr('reversey')=="true"){
-                dy = doy*-1;
-            }
-            else
-            {
-                dy = doy;
-            }
+            dox = e.dox;
+            doy = e.doy;
 
-            shift(ball, dx, dy);
+                if(ball.attr('reversex')=="false")
+                {
+                if(e.offsetTop>(740-dox))
+                    {
+                        ball.attr('reversex', true)
+                    }
+                } else {
+                    if(e.offsetTop<35)
+                    {
+                        ball.attr('reversex', false)
+                    }
+                }
+
+                if(ball.attr('reversey')=="false")
+                {
+                    if(e.offsetLeft>740-doy)
+                    {
+                        ball.attr('reversey', true);
+                    }
+                } else {
+                    if(e.offsetLeft<35)
+                    {
+                        ball.attr('reversey', false);
+                    }
+                }
+
+                let dx = 0;
+                let dy = 0;
+
+                if(ball.attr('reversex')=="true"){
+                    dx = dox*-1;
+                }
+                else
+                {
+                    dx = dox;
+                }
+
+                if(ball.attr('reversey')=="true"){
+                    dy = doy*-1;
+                }
+                else
+                {
+                    dy = doy;
+                }
+
+                window.shiftlog.push({e, dx, dy});
+
+            })
+
+            window.shift();
+            checkconflict();
+        }
+        window.blocking = false;
+
         }, window.speed)
-    }
+    }  
 
     let keepmoving = function(){
         if(!enginerunning){
             window.enginerunning = true;
             window.startTime = new Date();
-            $(".ball").each(function(i,e){
-                engine($(e));
-            })
-            window.conflictchecker = window.setInterval(function(){
-                checkconflict();
-            }, window.speed)
+            engine();
         }
         else{
             alert("The engine is already running!")
@@ -132,6 +160,7 @@ $(function(){
     }
 
     let infect = function(ball){
+        //not used anymore?
         ball.attr('infected', "true");
         ball.css('background-color', "red");
         ball[0].infectTime = new Date();
@@ -169,19 +198,26 @@ $(function(){
 
     let checkconflict = function(){
         $(".ball[infected='true']").each(function(i,e){
-            let x = getx($(e))+10;
-            let y = gety($(e))+10;
+            let x = e.offsetTop;
+            let y = e.offsetLeft;
             $(".ball[infected='false']").each(function(q,r){
-                let dx = x - (getx($(r))+10);
-                let dy = y - (gety($(r))+10);
-                //console.log("dx = " + dx);
-                //console.log("dy = " + dy);
+                let dx = x - (r.offsetTop);
+                let dy = y - (r.offsetLeft+10);
                 if(dx > -20 && dx < 20 && dy > -20 && dy < 20)
                 {
-                    infect($(r));
+                    window.infectionlog.push(r)
                 }
             });
         })
+
+        window.infectionlog.forEach(function(e,i){
+            ball = $(e);
+            ball.attr('infected', "true");
+            ball.css('background-color', "red");
+            e.infectTime = new Date();
+        })
+
+        window.infectionlog = [];
 
         checkrecovered();
         n = calNumbers();
@@ -202,10 +238,7 @@ $(function(){
     
     let stopengine = function(){
         window.enginerunning = false;
-        $(".ball").each(function(i,e){
-            clearInterval(e.engine);
-            clearInterval(window.conflictchecker);
-        })
+            clearInterval(window.engine);
     }
 
     $('#run-button').click(keepmoving);

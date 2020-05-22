@@ -18,7 +18,6 @@ $(function(){
                                 y = Number($('#amt-infected').text());
                                 z = Number($('#amt-recovered').text());
                                 u = Number($('#amt-free').text());
-                            console.log(y);
                             uninfected.addPoint([x, u], true, false);
                             infected.addPoint([x, y], true, false);
                             recovered.addPoint([x, z], true, false);
